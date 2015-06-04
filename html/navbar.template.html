@@ -1,0 +1,37 @@
+
+<div class="container" ng-mouseleave="closeMenu($event)">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" ng-click="collapseMenu($event)">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="link-kukuri" href="#" ui-sref="{{::sref}}" data-letters="{{::name}}">{{::name}}</a>
+  </div>
+  <div id="navbar" class="collapse navbar-collapse" aria-expanded="false" ng-class="navCollapsed">
+    <ul class="nav navbar-nav navbar-right">
+      <li ng-repeat="items in navbar" class="{{::menuClass(items.name, 'firstLevel')}} list-status">
+        <a href="#" ng-if="!items.name.pop" ui-sref="{{items.state}}" ng-mouseenter="closeOnMoveMenu()">{{items.name}}</a>
+
+        <a href="#" ng-if="items.name.pop" class="dropdown-toggle dropdown-toggle-firstLevel" dropdown-toggle aria-expanded="false" ng-click="expandMenu($event)" ng-mouseenter="expandMenu($event)" ng-mouseleave="closeSubMenu($event)">
+          {{::items.name[0]}}<b class="caret"></b>
+        </a>
+        <ul ng-if="items.name.pop" class="dropdown-menu"  ng-include="'submenu.template'"></ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script type="text/ng-template" id="submenu.template">
+  <li ng-repeat="items in items.name" ng-if="$index !== 0" class="{{::menuClass(items.name)}} sub-menu">
+    <a href="#" class="sub-link" ng-if="!items.name.pop" ui-sref="{{::items.state}}" ng-mouseenter="closeOnMoveSubMenu($event)"> {{::items.name}}</a>
+
+    <a href="#" ng-if="items.name.pop" class="dropdown-toggle" data-toggle="dropdown" ng-click="expandSubMenu($event)" ng-mouseenter="expandSubMenu($event)">
+       {{::items.name[0]}}
+    </a>
+    <ul ng-if="items.name.pop" class="dropdown-menu"  ng-include="'submenu.template'">
+    </ul>
+  </li>
+</script>
+
